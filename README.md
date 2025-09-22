@@ -21,9 +21,10 @@ Poderão ser Encontrados na pasta docs (os prints são de estruturas 'demo' que 
 
 
 ## 📂 Estrutura da pasta
-src/ → códigos VBA de exemplo
-docs/ → prints de tela
+- src/ → códigos VBA de exemplo
+- docs/ → prints de tela
 
 ---
 
 As estruturas reais e originais possuem informações privadas e de uso interno, os códigos originais foram formatados para uma versão exemplar somente para fins de apresentação.
+ 
