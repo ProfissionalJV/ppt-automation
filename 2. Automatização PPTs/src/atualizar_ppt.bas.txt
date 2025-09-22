@@ -1,0 +1,71 @@
+' File: atualizar_ppt.bas
+' Versão demo/anonimizada
+
+Option Explicit
+
+Sub AtualizarTextoDemo()
+    Dim excelWB As Workbook
+    Dim excelWS As Worksheet
+    Dim pptApp As Object
+    Dim pptPres As Object
+    Dim pptSlide As Object
+
+    ' Selecionar arquivo Excel de demo
+    Dim caminhoExcel As String
+    caminhoExcel = SelecionarArquivoExcel("Selecione a planilha com os dados para atualização (demo)")
+    If caminhoExcel = "" Then Exit Sub
+    Set excelWB = Workbooks.Open(caminhoExcel, ReadOnly:=True)
+    Set excelWS = excelWB.Sheets(1)
+
+    ' Tenta conectar ao PowerPoint aberto
+    On Error Resume Next
+    Set pptApp = GetObject(, "PowerPoint.Application")
+    If pptApp Is Nothing Then
+        MsgBox "Abra a apresentação do PowerPoint que deseja atualizar e rode novamente.", vbExclamation
+        excelWB.Close False
+        Exit Sub
+    End If
+    On Error GoTo 0
+
+    Set pptPres = pptApp.ActivePresentation
+    If pptPres Is Nothing Then
+        MsgBox "Nenhuma apresentação ativa.", vbExclamation
+        excelWB.Close False
+        Exit Sub
+    End If
+
+    ' Exemplo: atualizar o slide 1 (substituição da pág ppt)
+    Set pptSlide = pptPres.Slides(1)
+    Call AtualizarCaixaDeTextoDemo(pptSlide, excelWS, "CaixaTotal", "A2", "")
+    Call AtualizarCaixaDeTextoDemo(pptSlide, excelWS, "CaixaPerc", "B2", "0.0%")
+
+    excelWB.Close False
+    MsgBox "Apresentação atualizada (demo).", vbInformation
+End Sub
+
+Sub AtualizarCaixaDeTextoDemo(pptSlide As Object, excelWS As Worksheet, nomeShape As String, celulaExcel As String, Optional formato As String)
+    Dim pptShape As Object
+    Dim valorExcel As Variant
+    Dim textoFormatado As String
+
+    valorExcel = excelWS.Range(celulaExcel).Value
+
+    If formato <> "" Then
+        On Error Resume Next
+        textoFormatado = Format(valorExcel, formato)
+        On Error GoTo 0
+    Else
+        textoFormatado = CStr(valorExcel)
+    End If
+
+    On Error Resume Next
+    Set pptShape = pptSlide.Shapes(nomeShape)
+    If pptShape Is Nothing Then
+        ' Em demo apenas informa
+        MsgBox "Shape '" & nomeShape & "' não encontrada no slide (demo).", vbInformation
+        Exit Sub
+    End If
+    On Error GoTo 0
+
+    pptShape.TextFrame.TextRange.Text = textoFormatado
+End Sub
