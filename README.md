@@ -26,5 +26,6 @@ Poderão ser Encontrados na pasta docs (os prints são de estruturas 'demo' que 
 
 ---
 
-As estruturas reais e originais possuem informações privadas e de uso interno, os códigos originais foram formatados para uma versão exemplar somente para fins de apresentação.
+As estruturas reais e originais possuem informações privadas e de uso interno.
+Os códigos originais foram adaptados exclusivamente para fins de apresentação, documentação e portfólio.
  
